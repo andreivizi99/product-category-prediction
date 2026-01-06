@@ -1,23 +1,28 @@
 import joblib
+from pathlib import Path
 
-MODEL_PATH = "models/product_category_model.pkl"
-VECTORIZER_PATH = "models/tfidf_vectorizer.pkl"
+# Paths
+MODELS_PATH = Path("models")
+MODEL_FILE = MODELS_PATH / "product_category_model.pkl"
+VECTORIZER_FILE = MODELS_PATH / "tfidf_vectorizer.pkl"
 
 def main():
-    model = joblib.load(MODEL_PATH)
-    vectorizer = joblib.load(VECTORIZER_PATH)
+    # Load model and vectorizer
+    model = joblib.load(MODEL_FILE)
+    vectorizer = joblib.load(VECTORIZER_FILE)
 
     print("Product Category Prediction")
     print("Type 'exit' to stop.\n")
 
     while True:
-        title = input("Enter product title: ")
+        product_title = input("Enter product title: ")
 
-        if title.lower() == "exit":
+        if product_title.lower() == "exit":
+            print("Exiting program.")
             break
 
-        title_vec = vectorizer.transform([title])
-        prediction = model.predict(title_vec)[0]
+        X_vec = vectorizer.transform([product_title])
+        prediction = model.predict(X_vec)[0]
 
         print(f"Predicted category: {prediction}\n")
 
