@@ -18,6 +18,9 @@ def main():
     # Load dataset
     df = pd.read_csv(DATA_PATH)
 
+    # 🔧 FIX CRITIC – elimină spațiile din numele coloanelor
+    df.columns = df.columns.str.strip()
+
     # Keep only required columns
     df = df[["Product Title", "Category Label"]]
 
