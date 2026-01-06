@@ -1,24 +1,25 @@
-import pickle
+import joblib
 
-# Load model
-with open("models/product_category_model.pkl", "rb") as f:
-    model = pickle.load(f)
+MODEL_PATH = "models/product_category_model.pkl"
+VECTORIZER_PATH = "models/tfidf_vectorizer.pkl"
 
-# Load vectorizer
-with open("models/tfidf_vectorizer.pkl", "rb") as f:
-    tfidf = pickle.load(f)
+def main():
+    model = joblib.load(MODEL_PATH)
+    vectorizer = joblib.load(VECTORIZER_PATH)
 
-print("Interactive product category prediction")
-print("Type 'exit' to stop")
+    print("Product Category Prediction")
+    print("Type 'exit' to stop.\n")
 
-while True:
-    title = input("\nEnter product title: ")
+    while True:
+        title = input("Enter product title: ")
 
-    if title.lower() == "exit":
-        break
+        if title.lower() == "exit":
+            break
 
-    title = title.lower()
-    title_tfidf = tfidf.transform([title])
-    prediction = model.predict(title_tfidf)
+        title_vec = vectorizer.transform([title])
+        prediction = model.predict(title_vec)[0]
 
-    print("Predicted category:", prediction[0])
+        print(f"Predicted category: {prediction}\n")
+
+if __name__ == "__main__":
+    main()
