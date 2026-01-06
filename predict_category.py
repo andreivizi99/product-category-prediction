@@ -12,19 +12,19 @@ def main():
     vectorizer = joblib.load(VECTORIZER_FILE)
 
     print("Product Category Prediction")
-    print("Type 'exit' to stop.\n")
+    print("Type 'exit' to quit.\n")
 
     while True:
-        product_title = input("Enter product title: ")
+        title = input("Enter product title: ")
 
-        if product_title.lower() == "exit":
-            print("Exiting program.")
+        if title.lower() == "exit":
+            print("Goodbye!")
             break
 
-        X_vec = vectorizer.transform([product_title])
-        prediction = model.predict(X_vec)[0]
+        title_vec = vectorizer.transform([title])
+        prediction = model.predict(title_vec)
 
-        print(f"Predicted category: {prediction}\n")
+        print(f"Predicted category: {prediction[0]}\n")
 
 if __name__ == "__main__":
     main()
